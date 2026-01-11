@@ -1,0 +1,7 @@
+{
+  "name": "Argenti's Rose & GUN",
+  "description": "A refined European-style Pomodoro timer with a visual novel story. Immerse yourself in the tale of Argenti and Boothill while staying focused on your tasks.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
