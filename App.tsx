@@ -242,9 +242,10 @@ const App: React.FC = () => {
                   style={{ width: `${progress.exp * 100}%` }}
                 />
               </div>
-              <span className="text-[9px] font-cinzel text-[#c5a059]/40 mt-1 uppercase tracking-wider flex items-center gap-2 whitespace-nowrap">
-                {currentRank.zh} <span className="text-[7px] opacity-60 tracking-normal">{currentRank.en.toUpperCase()}</span>
-              </span>
+              <div className="text-[#c5a059]/40 mt-1 flex items-center gap-2 whitespace-nowrap">
+                <span className="font-kaiti text-xs tracking-widest">{currentRank.zh}</span>
+                <span className="font-cinzel text-[8px] opacity-60 tracking-normal uppercase">{currentRank.en}</span>
+              </div>
             </div>
 
             <div className="mb-12 relative">

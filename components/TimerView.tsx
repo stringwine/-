@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, RefreshCw, FastForward } from 'lucide-react';
+import { Play, Pause, RefreshCw } from 'lucide-react';
 import Button from './Button';
 
 interface TimerViewProps {
@@ -97,10 +97,6 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
     localStorage.removeItem('argenti_timer_paused_seconds');
     releaseWakeLock();
     onComplete();
-  };
-
-  const handleSkip = () => {
-    handleFinished();
   };
 
   useEffect(() => {
@@ -249,14 +245,6 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
             放弃 SURRENDER
           </Button>
         </div>
-        
-        <button 
-          onClick={handleSkip}
-          className="flex items-center gap-1.5 text-[#c5a059]/30 hover:text-[#c5a059] transition-colors font-cinzel text-[9px] tracking-[0.2em] uppercase group"
-        >
-          <FastForward size={12} className="group-hover:translate-x-1 transition-transform" />
-          跳过专注 SKIP FOCUS (DEBUG)
-        </button>
       </div>
 
       <div className="mt-auto pb-4 opacity-30">

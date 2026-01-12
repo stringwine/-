@@ -47,9 +47,7 @@ const WorldView: React.FC<WorldViewProps> = ({ onBack, progress }) => {
                     <span className="text-[#c5a059]/40 text-[10px] tracking-normal mt-1 ml-1">{currentRank.en.toUpperCase()}</span>
                   </span>
                 </div>
-                <span className="font-cinzel text-sm text-[#c5a059]/80 uppercase">
-                  {Math.round(progress.exp * 100)}% 契合度
-                </span>
+                {/* 移除了“契合度”文字，但下方进度条保留 */}
               </div>
               <div className="w-full h-3 bg-black/40 rounded-full border border-[#c5a059]/20 p-0.5">
                 <div 
@@ -109,8 +107,8 @@ const WorldView: React.FC<WorldViewProps> = ({ onBack, progress }) => {
                   </div>
                   <div className="flex flex-col gap-4 relative z-10">
                     <div className="flex items-center gap-3 border-b border-[#c5a059]/20 pb-2">
-                      <span className="font-cinzel text-[#c5a059] text-sm tracking-widest">🔹 记忆 · {memory.id}</span>
-                      <h3 className="font-playfair text-2xl text-[#f4e4bc] font-bold">《{memory.title}》</h3>
+                      <span className="font-cinzel text-[#c5a059] text-xs tracking-widest">记忆 · {memory.id}</span>
+                      <h3 className="font-playfair text-lg text-[#f4e4bc] font-bold">{memory.title}</h3>
                     </div>
                     <p className="text-[#f4e4bc]/90 font-playfair text-lg leading-loose whitespace-pre-wrap italic">
                       {memory.content}
