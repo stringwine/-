@@ -1,6 +1,112 @@
 
 import { Chapter } from './types';
 
+export const RANK_TITLES: { zh: string; en: string }[] = [
+  { zh: "静候启示", en: "Awaiting Revelation" },
+  { zh: "半步纯美", en: "Half-perfection" },
+  { zh: "未竟之美", en: "Unfinished Beauty" },
+  { zh: "玫瑰初醒", en: "Rose Awakening" },
+  { zh: "仪式行者", en: "Ritual Walker" },
+  { zh: "同行之约", en: "Vow of Travel" },
+  { zh: "心拍同频", en: "Synchronized Pulse" },
+  { zh: "纯美共振", en: "Resonating Perfection" },
+  { zh: "舞台稳锚", en: "Stage Anchor" },
+  { zh: "玫瑰誓存", en: "Rose's Oath" },
+  { zh: "纯美同在", en: "Eternal Perfection" },
+  { zh: "并肩未言", en: "Silent Companionship" },
+  { zh: "共行夜色", en: "Walking Through Night" },
+  { zh: "彼此所向", en: "Mutual Direction" },
+  { zh: "恒在此刻", en: "Everlasting Moment" },
+  { zh: "夜火同行", en: "Nightfire Voyage" },
+  { zh: "枪影相依", en: "Gunshade Reliance" },
+  { zh: "无言护航", en: "Silent Convoy" },
+  { zh: "玫瑰与枪", en: "Rose & Gun" },
+  { zh: "同赴险途", en: "Shared Danger" },
+  { zh: "心火未熄", en: "Unextinguished Heart" },
+  { zh: "并肩迎夜", en: "Facing Night Together" },
+  { zh: "枪影恒星", en: "Gunshade Star" },
+  { zh: "枪火成诗", en: "Gunfire Poetry" },
+  { zh: "夜色同眠", en: "Sleeping in Night" },
+  { zh: "彼此归途", en: "Mutual Homebound" },
+  { zh: "无须言爱", en: "Love Without Words" },
+  { zh: "不坠之夜", en: "Never-falling Night" },
+  { zh: "美与荒野", en: "Beauty & Wilderness" },
+  { zh: "同频生还", en: "Resonant Survival" },
+  { zh: "荒野共振", en: "Wilderness Resonance" },
+  { zh: "孤星同轨", en: "Lone Star Orbit" },
+  { zh: "独行成双", en: "Double Solitude" },
+  { zh: "荒火余温", en: "Embers of Wildfire" },
+];
+
+export const LOCKED_MEMORIES = [
+  {
+    id: "01",
+    title: "初次并肩",
+    content: "有人站在你左侧。\n枪没有抬起。\n玫瑰没有落下。"
+  },
+  {
+    id: "02",
+    title: "未开的枪",
+    content: "枪口对准了结局。\n但扳机没有回应。\n世界因此改道。"
+  },
+  {
+    id: "03",
+    title: "被抹之名",
+    content: "名字被划掉了。\n但你仍然记得节拍。\n有人没有离开。"
+  },
+  {
+    id: "04",
+    title: "玫瑰与雪",
+    content: "雪原之上，玫瑰不合时宜。\n有人伸手。\n有人被拉回来。"
+  },
+  {
+    id: "05",
+    title: "同行之夜",
+    content: "夜很长。\n枪声很近。\n但你并不孤单。"
+  },
+  {
+    id: "06",
+    title: "未竟航线",
+    content: "星图停在一半。\n引擎仍然温热。\n有人说：“再走一段。”"
+  },
+  {
+    id: "07",
+    title: "枪后无声",
+    content: "枪响之后，没有掌声。\n只有呼吸。\n和并肩的影子。"
+  },
+  {
+    id: "08",
+    title: "被允许的幸福",
+    content: "那是一条错误的路径。\n太圆满，太温柔。\n所以无法久留。"
+  },
+  {
+    id: "09",
+    title: "一念之差",
+    content: "同一个位置。\n不同的选择。\n有的世界结束了。"
+  },
+  {
+    id: "10",
+    title: "仍在此刻",
+    content: "塔没有记录这一幕。\n但你记得。\n有人还在。"
+  }
+];
+
+export const WORLD_DATA = {
+  background: "在名为「纯美」的星神伊德莉拉消失后，银枝作为纯美骑士团的一员，在宇宙中捍卫着美的名誉。然而，在那些被公司和虫群抹除的记忆深处，血族的契约与巡海游侠的枪影，正交织成一段未曾言说的秘史。在这座充满幻象与真理的塔中，每一次专注都是对现实的校准。",
+  characters: [
+    {
+      name: "银枝 Argenti",
+      role: "「纯美骑士团」骑士 / 血族幸存者",
+      desc: "他以极致的礼仪和歌声捍卫着伊德莉拉的荣光。身为血族，他通过“美”与“节律”来与本能谈判。在塔的深处，他面对着被抹除的过去与繁育的回声。"
+    },
+    {
+      name: "波提欧 Boothill",
+      role: "「巡海游侠」/ 机械猎手",
+      desc: "一个狂放不羁却冷静清醒的游侠。他原本是追踪“异常”的猎人，却在一次次扣动扳机的瞬间，选择了成为那个红发骑士在现实中的锚点。"
+    }
+  ]
+};
+
 export const STORY_DATA: Chapter[] = [
   {
     id: 1,
@@ -275,7 +381,7 @@ export const STORY_DATA: Chapter[] = [
     nodes: [
       { id: '11-1', character: 'Narrator', text: '塔门在身后合拢的声音很轻，轻得像一页纸落回书脊，可那一声“合拢”却像把外界的天空与镜湖彻底切断. 深蓝色的光从齿轮缝隙间流下，精致得近乎残忍，像一座城市把“美”打磨成了刑具. ', background: 'https://images.unsplash.com/photo-1516705489265-726af63c19a1?q=80&w=2000' },
       { id: '11-2', character: 'Narrator', text: '波提欧刚迈出半步，脚下的符纹便亮起一圈一圈的光，像扫描一样从靴尖向上爬过腰侧. 他眉头一皱，指节绷得发白，可银枝的手已经按在他肩上，温柔而强硬. ' },
-      { id: '11-3', character: 'Argenti', text: '“别动.” 银枝低声道，“它在确认你是不是‘同类’. 它不在乎怎么想，只在乎你——是不是能把我带走的人.”' },
+      { id: '11-3', character: 'Argenti', text: '“别动.” 银枝低声道，“它在确认你是不是‘同类’. 它不在乎怎么想，只外乎你——是不是能把我带走的人.”' },
       { id: '11-4', character: 'Boothill', text: '“我才不是.” 波提欧嗓音压得很稳，“你别话得像遗言. 你要走，就跟我走. 别给我留在这儿当纪念品.”' },
       { id: '11-5', character: 'Narrator', text: '波提欧的手抬起，猛地抓住银枝的手腕，握得极紧，紧到银枝白手套的布料在他掌心轻轻起皱，紧到你能感觉那是一种压到极限的确认：他不允许银枝在这种地方随意把自己说成一个可以被牺牲的符号. ' },
       { id: '11-6', character: 'Narrator', text: '银枝没有反驳，眼底那层克制像被钟声敲裂了一道细缝，露出一点几乎要溢出来的亮. 他轻轻点了一下头，像把一个沉重的承诺用最轻的动作交了出去. ' },
@@ -355,7 +461,7 @@ export const STORY_DATA: Chapter[] = [
       { id: '15-4', character: 'Narrator', text: '那种颤抖并不丢脸，反而真实得过分，像他终于暂时不用再扮演“稳定器”“舞台中心”或“被抹名的象征”。' },
       { id: '15-5', character: 'Narrator', text: '塔内的齿轮没有立刻恢复原本的节律。它们在转，却转得犹疑，像一套被强行中断的系统正在重新计算优先级。' },
       { id: '15-6', character: 'Narrator', text: '金属摩擦的声音不再连贯，而是一段一段地断开，仿佛塔本身也在确认：刚才那条既定路径，已经无法继续执行。' },
-      { id: '15-7', character: 'Narrator', text: '雪原彻底塌陷。白色被深蓝吞没，冰层像碎裂的镜子一块块下沉，虫群的影像在崩解中失去秩序，尚未完成形态便被强行抹除。' },
+      { id: '15-7', character: 'Narrator', text: '雪原彻底塌陷。白色被深蓝吞没，冰层像碎裂的镜子一块块下沉，虫群的影像在崩解中失去秩序，尚未完成形态便被强行抹除. ' },
       { id: '15-8', character: 'Narrator', text: '那些“繁育的回声”没能找到新的通道，只能在空间重构的过程中被压扁、折叠，最终消散。' },
       { id: '15-9', character: 'Narrator', text: '银枝慢慢松开手. 他仍旧站得不太稳，却已经能自行呼吸。' },
       { id: '15-10', character: 'Narrator', text: '那双红色的眼睛在光线回落后重新变得清晰，却多了一层你之前从未见过的东西——不是锋利，也不是悲悯，而是一种被短暂允许“活下来”的恍惚。' },
@@ -397,7 +503,7 @@ export const STORY_DATA: Chapter[] = [
       { id: '16-19', character: 'Argenti', text: '“若与你同行，” 他说，“荣光便不再需要观众。”' },
       { id: '16-20', character: 'Narrator', text: '画面在这里变得过于明亮. 他们的飞船穿行在宇宙之间，不为任务，只为目的地本身；在不同的星球停留，像度蜜月一样，毫无负担地浪费时间；波提欧靠在银枝肩上打盹，银枝任由他靠着，甚至会轻轻调整姿势让对方睡得更舒服。' },
       { id: '16-21', character: 'Narrator', text: '那是一种圆满到近乎危险的平静. 现实中的波提欧忽然皱起眉. 不是因为不想看，而是因为一种强烈的、无法言说的熟悉感正从胸腔深处涌上来——那种“这本该是我的人生”的错觉. ' },
-      { id: '16-22', character: 'Narrator', text: '银枝的呼吸也慢慢乱了. 不是血欲，而是另一种更隐蔽的失控：对圆满的渴望. ' },
+      { id: '16-22', character: 'Narrator', text: '银枝的呼吸也慢慢乱了. 不是欲望，而是另一种更隐蔽的失控：对圆满的渴望. ' },
       { id: '16-23', character: 'Argenti', text: '他轻声道，像是在梦中确认什么：“……原来，是这样。”' },
       { id: '16-24', character: 'Narrator', text: '塔在这一瞬间轻轻震动. 你能感觉到，它正在尝试固定这一条路径. 不是作为惩罚，而是作为诱因. 因为如果他们沉溺于此，这一世的挣扎、抗拒、选择，都会显得多余. ' },
       { id: '16-25', character: 'Boothill', text: '波提欧忽然伸手，握住银枝的手腕. 力道不重，却足够清醒. ' },
@@ -410,19 +516,3 @@ export const STORY_DATA: Chapter[] = [
     ]
   }
 ];
-
-export const WORLD_DATA = {
-  background: "蒸汽与星辉并存的欧式都市——钟楼、歌剧院、石板路与霓虹灯混杂。吸血鬼并非传说，而是被王室与公司系统性猎杀、驱逐、抹名的“旧贵族”。",
-  characters: [
-    {
-      name: "银枝 (Argenti)",
-      role: "高阶贵族系吸血鬼",
-      desc: "不靠猎食生存，靠‘仪式、美、信念’维持理智。能以玫瑰、歌声、舞台阵式操纵幻象与停滞。"
-    },
-    {
-      name: "波提欧 (Boothill)",
-      role: "改造人吸血鬼猎人",
-      desc: "隶属民间猎人体系。使用改造武器、银弹、符纹枪械。嘴硬、行动快、判断准。"
-    }
-  ]
-};

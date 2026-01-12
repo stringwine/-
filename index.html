@@ -13,12 +13,16 @@
             color: #e2e2e2;
             overflow: hidden;
             font-family: 'Lora', serif;
+            /* 强制隐藏横向滚动 */
+            overflow-x: hidden;
         }
         .font-cinzel { font-family: 'Cinzel', serif; }
         .font-playfair { font-family: 'Playfair Display', serif; }
+        /* 添加楷体字体定义 */
+        .font-kaiti { font-family: "STKaiti", "KaiTi", "楷体", "BiauKai", serif; }
         
         /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar { width: 4px; height: 0px; }
         ::-webkit-scrollbar-track { background: #1a1a1a; }
         ::-webkit-scrollbar-thumb { background: #c5a059; border-radius: 2px; }
 
