@@ -141,122 +141,121 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
   const offset = circumference - (progress / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-start md:justify-center p-4 w-full max-w-2xl mx-auto h-full overflow-y-auto overflow-x-hidden animate-fade-in custom-scrollbar">
-      <div className="text-center mb-6 mt-2">
-        <h2 className="font-cinzel text-2xl text-[#c5a059] mb-2 tracking-widest">{title}</h2>
-        <div className="max-w-md mx-auto">
-          <p className="text-[#f4e4bc]/70 italic font-playfair px-4 leading-relaxed text-xs md:text-sm">{description}</p>
-        </div>
-      </div>
-
-      <div className="relative mb-6 flex items-center justify-center w-full max-w-[280px] aspect-square">
-        {/* Decorative background orbits */}
-        <div className="absolute inset-0 -m-6 border border-[#c5a059]/10 rounded-full animate-[spin_40s_linear_infinite]" />
-        <div className="absolute inset-0 -m-3 border border-[#8b1c1c]/10 rounded-full animate-[spin_25s_linear_infinite_reverse]" />
+    <div className="flex flex-col items-center justify-center p-4 w-full h-full animate-fade-in overflow-hidden">
+      {/* 核心内容容器 */}
+      <div className="flex flex-col items-center justify-center w-full max-w-2xl flex-grow py-8 overflow-y-auto custom-scrollbar">
         
-        {/* Central Pulsing Glow Background */}
-        <div className={`absolute w-32 h-32 bg-[#c5a059]/10 rounded-full blur-[40px] transition-opacity duration-1000 ${isActive ? 'animate-pulse opacity-100' : 'opacity-40'}`} />
-        
-        <svg 
-          viewBox={`0 0 ${size} ${size}`} 
-          className="w-full h-full transform -rotate-90 overflow-visible"
-        >
-          <defs>
-            <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#8b1c1c" />
-              <stop offset="50%" stopColor="#c5a059" />
-              <stop offset="100%" stopColor="#8b1c1c" />
-            </linearGradient>
-            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur stdDeviation="3" result="blur" />
-              <feComposite in="SourceGraphic" in2="blur" operator="over" />
-            </filter>
-            <filter id="textGlow" x="-50%" y="-50%" width="200%" height="200%">
-                <feGaussianBlur stdDeviation="4" result="blur" />
-                <feMerge>
-                    <feMergeNode in="blur" />
-                    <feMergeNode in="SourceGraphic" />
-                </feMerge>
-            </filter>
-          </defs>
-
-          {/* Background circle */}
-          <circle
-            cx={center}
-            cy={center}
-            r={radius}
-            stroke="#151515"
-            strokeWidth={strokeWidth - 2}
-            fill="transparent"
-          />
-          
-          {/* Progress circle with Gradient and Glow */}
-          <circle
-            cx={center}
-            cy={center}
-            r={radius}
-            stroke="url(#timerGradient)"
-            strokeWidth={strokeWidth}
-            fill="transparent"
-            strokeDasharray={circumference}
-            strokeDashoffset={offset}
-            strokeLinecap="round"
-            filter="url(#glow)"
-            className="transition-all duration-300 ease-linear"
-          />
-        </svg>
-
-        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
-          {/* Main Time with Outer Glow */}
-          <span className="text-5xl md:text-6xl font-cinzel text-[#f4e4bc] relative z-10 transition-all duration-500" style={{ filter: 'drop-shadow(0 0 8px rgba(197, 160, 89, 0.5))' }}>
-            {formatTime(secondsLeft)}
-          </span>
-          
-          {/* Decorative Ornament with Glow */}
-          <div className="flex items-center gap-2 mt-2 w-24 relative z-10 opacity-80 group">
-            <div className="h-[0.5px] flex-grow bg-gradient-to-r from-transparent to-[#c5a059]/60 shadow-[0_0_8px_rgba(197,160,89,0.3)]" />
-            <div className="w-1.5 h-1.5 rotate-45 border border-[#c5a059] bg-[#0a0a0a] shadow-[0_0_10px_rgba(197,160,89,0.5)]" />
-            <div className="h-[0.5px] flex-grow bg-gradient-to-l from-transparent to-[#c5a059]/60 shadow-[0_0_8px_rgba(197,160,89,0.3)]" />
+        <div className="text-center mb-8">
+          <h2 className="font-cinzel text-2xl text-[#c5a059] mb-3 tracking-widest">{title}</h2>
+          <div className="max-w-md mx-auto">
+            <p className="text-[#f4e4bc]/70 italic font-playfair px-4 leading-relaxed text-sm">
+              {description}
+            </p>
           </div>
-
-          {/* Status Text with breathing effect */}
-          <span className={`mt-3 font-cinzel text-[10px] md:text-[11px] tracking-[0.4em] text-[#c5a059] uppercase transition-all duration-1000 ${isActive ? 'animate-pulse opacity-100' : 'opacity-60'}`} style={{ filter: 'drop-shadow(0 0 5px rgba(197, 160, 89, 0.4))' }}>
-            {getStatusText()}
-          </span>
         </div>
-      </div>
 
-      <div className="flex flex-col items-center gap-4 w-full mb-8">
-        <div className="flex flex-wrap justify-center gap-3 w-full">
-          <Button 
-            variant="primary" 
-            onClick={() => setIsActive(!isActive)}
-            className="flex items-center gap-3 min-w-[130px] justify-center text-sm tracking-[0.15em] py-2.5"
+        <div className="relative mb-10 flex items-center justify-center w-full max-w-[280px] aspect-square flex-shrink-0">
+          {/* Decorative background orbits */}
+          <div className="absolute inset-0 -m-6 border border-[#c5a059]/10 rounded-full animate-[spin_40s_linear_infinite]" />
+          <div className="absolute inset-0 -m-3 border border-[#8b1c1c]/10 rounded-full animate-[spin_25s_linear_infinite_reverse]" />
+          
+          <div className={`absolute w-32 h-32 bg-[#c5a059]/10 rounded-full blur-[40px] transition-opacity duration-1000 ${isActive ? 'animate-pulse opacity-100' : 'opacity-40'}`} />
+          
+          <svg 
+            viewBox={`0 0 ${size} ${size}`} 
+            className="w-full h-full transform -rotate-90 overflow-visible"
           >
-            {isActive ? <Pause size={16} /> : <Play size={16} />}
-            {isActive ? '暂停 PAUSE' : '开始 START'}
-          </Button>
-          <Button 
-            variant="secondary" 
-            onClick={handleCancel}
-            className="flex items-center gap-3 min-w-[130px] justify-center text-sm tracking-[0.15em] py-2.5 opacity-80 hover:opacity-100"
-          >
-            <RefreshCw size={16} />
-            放弃 SURRENDER
-          </Button>
+            <defs>
+              <linearGradient id="timerGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#8b1c1c" />
+                <stop offset="50%" stopColor="#c5a059" />
+                <stop offset="100%" stopColor="#8b1c1c" />
+              </linearGradient>
+              <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="3" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+
+            <circle
+              cx={center}
+              cy={center}
+              r={radius}
+              stroke="#151515"
+              strokeWidth={strokeWidth - 2}
+              fill="transparent"
+            />
+            
+            <circle
+              cx={center}
+              cy={center}
+              r={radius}
+              stroke="url(#timerGradient)"
+              strokeWidth={strokeWidth}
+              fill="transparent"
+              strokeDasharray={circumference}
+              strokeDashoffset={offset}
+              strokeLinecap="round"
+              filter="url(#glow)"
+              className="transition-all duration-300 ease-linear"
+            />
+          </svg>
+
+          {/* 计时器中心显示区域：增加 pt-6 将内容整体下移，增强视觉美感 */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-6">
+            <span className="text-5xl md:text-6xl font-cinzel text-[#f4e4bc] relative z-10 transition-all duration-500" style={{ filter: 'drop-shadow(0 0 8px rgba(197, 160, 89, 0.5))' }}>
+              {formatTime(secondsLeft)}
+            </span>
+            
+            <div className="flex items-center gap-2 mt-2 w-24 relative z-10 opacity-80 group">
+              <div className="h-[0.5px] flex-grow bg-gradient-to-r from-transparent to-[#c5a059]/60 shadow-[0_0_8px_rgba(197,160,89,0.3)]" />
+              <div className="w-1.5 h-1.5 rotate-45 border border-[#c5a059] bg-[#0a0a0a] shadow-[0_0_10px_rgba(197,160,89,0.5)]" />
+              <div className="h-[0.5px] flex-grow bg-gradient-to-l from-transparent to-[#c5a059]/60 shadow-[0_0_8px_rgba(197,160,89,0.3)]" />
+            </div>
+
+            <span className={`mt-3 font-cinzel text-[10px] md:text-[11px] tracking-[0.4em] text-[#c5a059] uppercase transition-all duration-1000 ${isActive ? 'animate-pulse opacity-100' : 'opacity-60'}`} style={{ filter: 'drop-shadow(0 0 5px rgba(197, 160, 89, 0.4))' }}>
+              {getStatusText()}
+            </span>
+
+            {/* 状态玫瑰：紧贴在状态文字下方，使用 absolute 且容器透明，防止产生黑框 */}
+            <div className="mt-3 flex items-center justify-center h-8 w-8 bg-transparent">
+              <span 
+                className={`text-xl leading-none transition-all duration-700 bg-transparent inline-block ${isActive ? 'opacity-90' : 'opacity-40'}`}
+                style={{ 
+                  filter: isActive ? 'drop-shadow(0 0 8px rgba(197, 160, 89, 0.6))' : 'none',
+                  backgroundColor: 'transparent'
+                }}
+              >
+                {isActive ? '🌹' : '🥀'}
+              </span>
+            </div>
+          </div>
         </div>
-      </div>
 
-      <div className="mt-auto pb-4 opacity-30">
-        <span className="text-2xl filter drop-shadow-[0_0_8px_rgba(197,160,89,0.5)]">🥀</span>
+        <div className="flex flex-col items-center gap-4 w-full px-4">
+          <div className="flex flex-wrap justify-center gap-3 w-full">
+            <Button 
+              variant="primary" 
+              onClick={() => setIsActive(!isActive)}
+              className="flex items-center gap-3 min-w-[130px] justify-center text-sm tracking-[0.15em] py-3"
+            >
+              {isActive ? <Pause size={16} /> : <Play size={16} />}
+              {isActive ? '暂停 PAUSE' : '开始 START'}
+            </Button>
+            <Button 
+              variant="secondary" 
+              onClick={handleCancel}
+              className="flex items-center gap-3 min-w-[130px] justify-center text-sm tracking-[0.15em] py-3 opacity-80 hover:opacity-100"
+            >
+              <RefreshCw size={16} />
+              放弃 SURRENDER
+            </Button>
+          </div>
+        </div>
       </div>
 
       <style>{`
         .custom-scrollbar::-webkit-scrollbar { width: 0px; }
-        @keyframes central-breathing {
-          0%, 100% { opacity: 0.1; transform: scale(1); }
-          50% { opacity: 0.3; transform: scale(1.1); }
-        }
       `}</style>
     </div>
   );
