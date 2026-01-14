@@ -12,7 +12,17 @@ interface TimerViewProps {
 }
 
 const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, description, onComplete, onCancel }) => {
-  // --- 初始化状态 ---
+  // --- 状态管理 ---
+  
+  // 当前章节要求的基准时长（秒）
+  const baseDurationSeconds = durationMinutes * 60;
+
+  // 用户可能自定义后的总时长（秒）
+  const [totalSeconds, setTotalSeconds] = useState(() => {
+    const saved = localStorage.getItem('argenti_timer_total_seconds');
+    return saved ? parseInt(saved, 10) : baseDurationSeconds;
+  });
+
   const [secondsLeft, setSecondsLeft] = useState(() => {
     const timerTarget = localStorage.getItem('argenti_timer_target');
     if (timerTarget) {
@@ -23,12 +33,16 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
     if (pausedSeconds) {
       return parseInt(pausedSeconds, 10);
     }
-    return durationMinutes * 60;
+    return totalSeconds;
   });
 
   const [isActive, setIsActive] = useState(() => {
     return !!localStorage.getItem('argenti_timer_target');
   });
+
+  // 编辑状态
+  const [isEditing, setIsEditing] = useState(false);
+  const [editValue, setEditValue] = useState('');
   
   const targetEndTimeRef = useRef<number | null>(null);
   const wakeLockRef = useRef<any>(null);
@@ -95,6 +109,7 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
     targetEndTimeRef.current = null;
     localStorage.removeItem('argenti_timer_target');
     localStorage.removeItem('argenti_timer_paused_seconds');
+    localStorage.removeItem('argenti_timer_total_seconds');
     releaseWakeLock();
     onComplete();
   };
@@ -117,6 +132,7 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
   const handleCancel = () => {
     localStorage.removeItem('argenti_timer_target');
     localStorage.removeItem('argenti_timer_paused_seconds');
+    localStorage.removeItem('argenti_timer_total_seconds');
     onCancel();
   };
 
@@ -128,11 +144,36 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
 
   const getStatusText = () => {
     if (isActive) return "FOCUSING";
-    if (secondsLeft < durationMinutes * 60) return "PAUSED";
+    if (secondsLeft < totalSeconds) return "PAUSED";
     return "WAITING";
   };
 
-  const progress = (secondsLeft / (durationMinutes * 60)) * 100;
+  // 自定义时间处理
+  const startEditing = () => {
+    if (isActive) return; // 运行中不可编辑
+    setEditValue(Math.floor(totalSeconds / 60).toString());
+    setIsEditing(true);
+  };
+
+  const saveEdit = () => {
+    const newMins = parseInt(editValue, 10);
+    // 根据最新要求，不再限制必须大于已有时间，只要是正数即可
+    if (!isNaN(newMins) && newMins > 0) {
+      const newTotalSeconds = newMins * 60;
+      setTotalSeconds(newTotalSeconds);
+      setSecondsLeft(newTotalSeconds);
+      localStorage.setItem('argenti_timer_total_seconds', newTotalSeconds.toString());
+      localStorage.setItem('argenti_timer_paused_seconds', newTotalSeconds.toString());
+    }
+    setIsEditing(false);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') saveEdit();
+    if (e.key === 'Escape') setIsEditing(false);
+  };
+
+  const progress = (secondsLeft / totalSeconds) * 100;
   const size = 280; 
   const center = size / 2;
   const strokeWidth = 6; 
@@ -201,11 +242,39 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
             />
           </svg>
 
-          {/* 计时器中心显示区域：增加 pt-6 将内容整体下移，增强视觉美感 */}
+          {/* 计时器中心显示区域 */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none pt-6">
-            <span className="text-5xl md:text-6xl font-cinzel text-[#f4e4bc] relative z-10 transition-all duration-500" style={{ filter: 'drop-shadow(0 0 8px rgba(197, 160, 89, 0.5))' }}>
-              {formatTime(secondsLeft)}
-            </span>
+            
+            {/* 时间显示/编辑区域 */}
+            <div className="relative z-10 pointer-events-auto cursor-pointer group flex items-center justify-center min-w-[220px]">
+              {isEditing ? (
+                <div className="flex items-center justify-center bg-transparent">
+                  <input
+                    autoFocus
+                    type="text"
+                    value={editValue}
+                    onChange={(e) => setEditValue(e.target.value.replace(/\D/g, ''))}
+                    onBlur={saveEdit}
+                    onKeyDown={handleKeyDown}
+                    className="w-40 text-center bg-transparent border-none outline-none text-5xl md:text-6xl font-cinzel text-[#f4e4bc] selection:bg-[#c5a059]/30"
+                    style={{ filter: 'drop-shadow(0 0 8px rgba(197, 160, 89, 0.5))' }}
+                  />
+                </div>
+              ) : (
+                <div 
+                  onClick={startEditing}
+                  title={isActive ? "运行中不可修改时长" : "点击自定义时长"}
+                  className="transition-transform duration-300 active:scale-95"
+                >
+                  <span className="text-5xl md:text-6xl font-cinzel text-[#f4e4bc] transition-all duration-500" style={{ filter: 'drop-shadow(0 0 8px rgba(197, 160, 89, 0.5))' }}>
+                    {formatTime(secondsLeft)}
+                  </span>
+                  {!isActive && (
+                    <div className="absolute -bottom-1 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#c5a059]/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  )}
+                </div>
+              )}
+            </div>
             
             <div className="flex items-center gap-2 mt-2 w-24 relative z-10 opacity-80 group">
               <div className="h-[0.5px] flex-grow bg-gradient-to-r from-transparent to-[#c5a059]/60 shadow-[0_0_8px_rgba(197,160,89,0.3)]" />
@@ -217,7 +286,7 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
               {getStatusText()}
             </span>
 
-            {/* 状态玫瑰：紧贴在状态文字下方，使用 absolute 且容器透明，防止产生黑框 */}
+            {/* 状态玫瑰 */}
             <div className="mt-3 flex items-center justify-center h-8 w-8 bg-transparent">
               <span 
                 className={`text-xl leading-none transition-all duration-700 bg-transparent inline-block ${isActive ? 'opacity-90' : 'opacity-40'}`}
@@ -237,6 +306,7 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
             <Button 
               variant="primary" 
               onClick={() => setIsActive(!isActive)}
+              disabled={isEditing}
               className="flex items-center gap-3 min-w-[130px] justify-center text-sm tracking-[0.15em] py-3"
             >
               {isActive ? <Pause size={16} /> : <Play size={16} />}
@@ -245,6 +315,7 @@ const TimerView: React.FC<TimerViewProps> = ({ durationMinutes, title, descripti
             <Button 
               variant="secondary" 
               onClick={handleCancel}
+              disabled={isEditing}
               className="flex items-center gap-3 min-w-[130px] justify-center text-sm tracking-[0.15em] py-3 opacity-80 hover:opacity-100"
             >
               <RefreshCw size={16} />
